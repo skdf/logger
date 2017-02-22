@@ -16,10 +16,32 @@ function guid() {
 function X()
 {
 
-    new Fingerprint2().get(function(result, components){
-    console.log(result); //a hash, representing your device fingerprint
-    console.log(components); // an array of FP components
+    //get browser fingerprint
+    new Fingerprint2().get(function(result){
+    console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
     });
+
+      var d1 = new Date();
+      var fp = new Fingerprint2();
+      fp.get(function(result, components) {
+        var d2 = new Date();
+        var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
+        var details = "<strong>Detailed information: </strong><br />";
+        if(typeof window.console !== "undefined") {
+          console.log(timeString);
+          console.log(result);
+          for (var index in components) {
+            var obj = components[index];
+            var value = obj.value;
+            var line = obj.key + " = " + value.toString().substr(0, 100);
+            console.log(line);
+            details += line + "<br />";
+          }
+        }
+        $("#details").html(details);
+        $("#fp").text(result);
+        $("#time").text(timeString);
+      });
 
     var x = this;
 
