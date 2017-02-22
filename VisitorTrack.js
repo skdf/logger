@@ -15,6 +15,12 @@ function guid() {
 
 function X()
 {
+
+    new Fingerprint2().get(function(result, components){
+    console.log(result); //a hash, representing your device fingerprint
+    console.log(components); // an array of FP components
+    });
+
     var x = this;
 
     this.httpendpoint = window.location.href;
