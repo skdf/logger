@@ -21,6 +21,13 @@ function X()
     console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
     });
 
+    new Fingerprint2({
+        extendedJsFonts: true
+    }).get(function(result, components){}
+        console.log(result);
+        console.log(components);
+        );
+
       var d1 = new Date();
       var fp = new Fingerprint2();
       fp.get(function(result, components) {
