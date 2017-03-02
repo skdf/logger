@@ -23,21 +23,24 @@ function X()
     // console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
     // });
 
-    new Fingerprint2().get(function(result, components){
-    console.log(result + " browser fingerprint with extended fonts");
-    console.log(components);
-    });
+    // new Fingerprint2().get(function(result, components){
+    // console.log(result + " browser fingerprint");
+    // console.log(components);
+    // });
 
-    new Fingerprint2({
-        extendedJsFonts: true
-    }).get(function(result, components){
-        console.log(result + " browser fingerprint");
-        console.log(components);
-        });
+    // new Fingerprint2({
+    //     extendedJsFonts: true
+    // }).get(function(result, components){
+    //     console.log(result + " browser fingerprint with extended fonts");
+    //     console.log(components);
+    //     });
 
       var d1 = new Date();
       var fp = new Fingerprint2();
       fp.get(function(result, components) {
+
+        console.log(result + " browser fingerprint");
+
         var d2 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
         var details = "<strong>Detailed information: </strong><br />";
@@ -61,6 +64,9 @@ function X()
       var d3 = new Date();
       var fp = new Fingerprint2({extendedJsFonts: true});
       fp.get(function(result, components) {
+
+        console.log(result + " browser fingerprint with extended fonts");
+
         var d4 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
         var details = "<strong>Detailed information: </strong><br />";
