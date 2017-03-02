@@ -452,7 +452,7 @@ function visitorProperties() {
 
     data.api_key = document.getElementById("logger").getAttribute("api_key");
 
-    data.browserFingerprint = arguments[21]
+    data.browserFingerprint = arguments[20]
 
     return JSON.stringify(data);
 }
