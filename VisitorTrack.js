@@ -151,11 +151,11 @@ const TABLET = "Tablet";
 const DESKTOP = "Desktop";
 const DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
-var browserFingerprint = "";
+var browser_fingerprint = "";
 
 //get browser fingerprint
 new Fingerprint2().get(function(result){
-    browserFingerprint = result
+    browser_fingerprint = result
     console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
 });
 
@@ -307,7 +307,7 @@ X.prototype.eventReceived = function (ev) {
 
     if (this.logEventCount == 0) {
         var time = new Date();
-        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot, device, browserFingerprint);
+        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot, device, browser_fingerprint);
     }
 
     var coordinates = transferCoordinatesForHeatMap(ev);
@@ -424,7 +424,7 @@ function visitorProperties() {
         "bot" : "",
         "device"  : "",
 		"api_key" : "",
-        "browserFingerprint" : ""
+        "browser_fingerprint" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -452,7 +452,7 @@ function visitorProperties() {
 
     data.api_key = document.getElementById("logger").getAttribute("api_key");
 
-    data.browserFingerprint = arguments[20]
+    data.browser_fingerprint = arguments[20]
 
     return JSON.stringify(data);
 }
