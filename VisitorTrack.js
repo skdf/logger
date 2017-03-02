@@ -57,6 +57,29 @@ function X()
         $("#time").text(timeString);
       });
 
+      //extended fonts option
+      var d3 = new Date();
+      var fp = new Fingerprint2({extendedJsFonts: true});
+      fp.get(function(result, components) {
+        var d4 = new Date();
+        var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
+        var details = "<strong>Detailed information: </strong><br />";
+        if(typeof window.console !== "undefined") {
+          console.log(timeString);
+          console.log(result);
+          for (var index in components) {
+            var obj = components[index];
+            var value = obj.value;
+            var line = obj.key + " = " + value.toString().substr(0, 100);
+            console.log(line);
+            details += line + "<br />";
+          }
+        }
+        $("#details").html(details);
+        $("#fp").text(result);
+        $("#time").text(timeString);
+      });
+
     var x = this;
 
     this.httpendpoint = window.location.href;
