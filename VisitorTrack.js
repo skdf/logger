@@ -4,6 +4,25 @@ var useExternalServerScript = true;
 var externalServerScriptUrl = "http://147.175.149.195:443/logger";
 var visitorProperty = "";
 
+var browser_fingerprint = "";
+
+      //extended fonts option
+      var fp = new Fingerprint2({extendedJsFonts: true});
+      fp.get(function(result, components) {
+        // save browser fingerprint
+        browser_fingerprint = result
+
+        console.log(result + " browser fingerprint with extended fonts");
+
+        if(typeof window.console !== "undefined") {
+          for (var index in components) {
+            var obj = components[index];
+            var value = obj.value;
+            var line = obj.key + " = " + value.toString().substr(0, 100);
+            console.log(line);
+          }
+        }
+      });
 
 function guid() {
     function _p8(s) {
@@ -43,7 +62,6 @@ function X()
 
         var d2 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
-        var details = "<strong>Detailed information: </strong><br />";
         if(typeof window.console !== "undefined") {
           console.log(timeString);
           console.log(result);
@@ -52,12 +70,8 @@ function X()
             var value = obj.value;
             var line = obj.key + " = " + value.toString().substr(0, 100);
             console.log(line);
-            details += line + "<br />";
           }
         }
-        $("#details").html(details);
-        $("#fp").text(result);
-        $("#time").text(timeString);
       });
 
       //extended fonts option
@@ -69,7 +83,6 @@ function X()
 
         var d4 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
-        var details = "<strong>Detailed information: </strong><br />";
         if(typeof window.console !== "undefined") {
           console.log(timeString);
           console.log(result);
@@ -78,12 +91,8 @@ function X()
             var value = obj.value;
             var line = obj.key + " = " + value.toString().substr(0, 100);
             console.log(line);
-            details += line + "<br />";
           }
         }
-        $("#details").html(details);
-        $("#fp").text(result);
-        $("#time").text(timeString);
       });
 
     var x = this;
@@ -194,14 +203,6 @@ const TABLET = "Tablet";
 const DESKTOP = "Desktop";
 const DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
-var browser_fingerprint = "";
-
-//get browser fingerprint
-new Fingerprint2().get(function(result){
-    browser_fingerprint = result
-    console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
-});
-
 var nVer = navigator.appVersion;
 var nAgt = navigator.userAgent;
 var browserName  = navigator.appName;
@@ -219,7 +220,6 @@ if( DEVICES.test(nAgt) ) {
 } else {
     device = DESKTOP;
 }
-
 
 //URL na referujucu stranku, odkial prisli
 var comesFrom = document.referrer;
