@@ -23,10 +23,10 @@ function X()
 
     new Fingerprint2({
         extendedJsFonts: true
-    }).get(function(result, components){}
+    }).get(function(result, components){
         console.log(result);
         console.log(components);
-        );
+        });
 
       var d1 = new Date();
       var fp = new Fingerprint2();
