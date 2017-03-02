@@ -16,15 +16,22 @@ function guid() {
 function X()
 {
 
+    // used fingerprint source https://github.com/Valve/fingerprintjs2
+
     //get browser fingerprint
-    new Fingerprint2().get(function(result){
-    console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
+    // new Fingerprint2().get(function(result){
+    // console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
+    // });
+
+    new Fingerprint2().get(function(result, components){
+    console.log(result + " browser fingerprint with extended fonts");
+    console.log(components);
     });
 
     new Fingerprint2({
         extendedJsFonts: true
     }).get(function(result, components){
-        console.log(result);
+        console.log(result + " browser fingerprint");
         console.log(components);
         });
 
