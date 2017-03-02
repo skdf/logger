@@ -151,6 +151,14 @@ const TABLET = "Tablet";
 const DESKTOP = "Desktop";
 const DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
+var browserFingerprint = "";
+
+//get browser fingerprint
+new Fingerprint2().get(function(result){
+    browserFingerprint = result
+    console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
+});
+
 var nVer = navigator.appVersion;
 var nAgt = navigator.userAgent;
 var browserName  = navigator.appName;
@@ -299,7 +307,7 @@ X.prototype.eventReceived = function (ev) {
 
     if (this.logEventCount == 0) {
         var time = new Date();
-        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot, device);
+        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot, device, browserFingerprint);
     }
 
     var coordinates = transferCoordinatesForHeatMap(ev);
@@ -415,8 +423,8 @@ function visitorProperties() {
 		"comes_from" : "",
         "bot" : "",
         "device"  : "",
-		"api_key" : ""
-
+		"api_key" : "",
+        "browserFingerprint" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -443,6 +451,8 @@ function visitorProperties() {
     data.device = arguments[19];
 
     data.api_key = document.getElementById("logger").getAttribute("api_key");
+
+    data.browserFingerprint = arguments[21]
 
     return JSON.stringify(data);
 }
