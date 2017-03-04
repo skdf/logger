@@ -5,24 +5,36 @@ var externalServerScriptUrl = "http://147.175.149.195:443/logger";
 var visitorProperty = "";
 
 var browser_fingerprint = "";
+var pixel_ratio = "";
+var canvas_fingerprint = "";
+var webgl_fingerprint = "";
+var timezone_offset = "";
 
-      //extended fonts option
-      var fp = new Fingerprint2({extendedJsFonts: true});
-      fp.get(function(result, components) {
-        // save browser fingerprint
-        browser_fingerprint = result
+//extended fonts option
+var fp = new Fingerprint2({extendedJsFonts: true});
 
-        console.log(result + " browser fingerprint with extended fonts");
+fp.get(function(result, components) {
 
-        if(typeof window.console !== "undefined") {
-          for (var index in components) {
-            var obj = components[index];
-            var value = obj.value;
-            var line = obj.key + " = " + value.toString().substr(0, 100);
-            console.log(line);
-          }
+    console.log(result + " browser fingerprint with extended fonts");
+
+    // save browser fingerprint
+    browser_fingerprint = result
+
+    //save canvas and webgl fingerprint, timezone offset, pixel ratio
+    pixel_ratio = components[3].value;
+    timezone_offset = components[7].value;
+    canvas_fingerprint = components[16].value;
+    webgl_fingerprint = components[17].value;
+
+    if(typeof window.console !== "undefined") {
+        for (var index in components) {
+        var obj = components[index];
+        var value = obj.value;
+        var line = obj.key + " = " + value.toString().substr(0, 100);
+        console.log(line);
         }
-      });
+    }
+});
 
 function guid() {
     function _p8(s) {
@@ -350,7 +362,32 @@ X.prototype.eventReceived = function (ev) {
 
     if (this.logEventCount == 0) {
         var time = new Date();
-        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot, device, browser_fingerprint);
+        visitorProperty = visitorProperties(
+            new Date().getTime(),
+            'size', screen.width,
+            screen.height, 
+            $(window).width(), 
+            $(window).height(), 
+            $(document).width(), 
+            $(document).height(), 
+            screen.colorDepth, 
+            time.getTimezoneOffset(), 
+            browserName, 
+            fullVersion, 
+            majorVersion, 
+            navigator.appName, 
+            cookie, 
+            language, 
+            platform, 
+            comesFrom, 
+            bot, 
+            device, 
+            browser_fingerprint,
+            pixel_ratio,
+            timezone_offset,
+            canvas_fingerprint,
+            webgl_fingerprint
+            );
     }
 
     var coordinates = transferCoordinatesForHeatMap(ev);
@@ -467,7 +504,11 @@ function visitorProperties() {
         "bot" : "",
         "device"  : "",
 		"api_key" : "",
-        "browser_fingerprint" : ""
+        "browser_fingerprint" : "",
+        "pixel_ratio" : "",
+        "timezone_offset" : "",
+        "canvas_fingerprint" : "",
+        "webgl_fingerprint" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -495,7 +536,12 @@ function visitorProperties() {
 
     data.api_key = document.getElementById("logger").getAttribute("api_key");
 
-    data.browser_fingerprint = arguments[20]
+    data.browser_fingerprint = arguments[20];
+    data.pixel_ratio = arguments[21];
+    data.timezone_offset = arguments[22];
+    data.canvas_fingerprint = arguments[23];
+    data.webgl_fingerprint = arguments[24];
+
 
     return JSON.stringify(data);
 }
@@ -585,27 +631,6 @@ X.prototype.send = function (url, data) {
         });
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 X.prototype.sendBeaconSupported = function () {
