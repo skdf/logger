@@ -1,5 +1,5 @@
 var periodicallySendData = true;
-var useSendBeacon = true;
+var useSendBeacon = false;
 var useExternalServerScript = true;
 var externalServerScriptUrl = "http://147.175.149.195:443/logger";
 var visitorProperty = "";
