@@ -539,8 +539,8 @@ function visitorProperties() {
     data.browser_fingerprint = arguments[20];
     data.pixel_ratio = arguments[21];
     data.timezone_offset = arguments[22];
-    data.canvas_fingerprint = arguments[23];
-    data.webgl_fingerprint = arguments[24];
+    //data.canvas_fingerprint = arguments[23];
+    //data.webgl_fingerprint = arguments[24];
 
 
     return JSON.stringify(data);
