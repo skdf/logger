@@ -18,7 +18,7 @@ fp.get(function(result, components) {
     console.log(result + " browser fingerprint with extended fonts");
 
     // save browser fingerprint
-    browser_fingerprint = result
+    browser_fingerprint = result;
 
     //save canvas and webgl fingerprint, timezone offset, pixel ratio
     pixel_ratio = components[3].value;
