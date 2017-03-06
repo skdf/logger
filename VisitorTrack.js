@@ -10,6 +10,13 @@ var canvas_fingerprint = "";
 var webgl_fingerprint = "";
 var timezone_offset = "";
 
+$.getScript( "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js", function( data, textStatus, jqxhr ) {
+  console.log( data ); // Data returned
+  console.log( textStatus ); // Success
+  console.log( jqxhr.status ); // 200
+  console.log( "Load was performed." );
+});
+
 //extended fonts option
 var fp = new Fingerprint2({extendedJsFonts: true});
 
@@ -677,3 +684,4 @@ X.prototype.sendBeaconSupported = function () {
 }
 
 var logger = new X();
+
