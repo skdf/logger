@@ -70,7 +70,7 @@ function getCookie(cname) {
 
 function checkCookie() {
     var visitorUID=getCookie("visitorUID");
-    if (user != "") {
+    if (visitorUID != "") {
         alert("Welcome again visitor with UID " + visitorUID);
     } else {
        generatedUID = guid();
