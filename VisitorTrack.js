@@ -142,7 +142,7 @@ function getCookie(cname) {
 
 function checkCookie() {
     visitor_uid = getCookie("visitor_uid");
-    if (visitorUID != "") {
+    if (visitor_uid != "") {
         console.log("Welcome again visitor with UID " + visitorUID);
     } else {
        generatedUID = guid();
