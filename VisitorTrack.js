@@ -9,6 +9,7 @@ var pixel_ratio = "";
 var canvas_fingerprint = "";
 var webgl_fingerprint = "";
 var timezone_offset = "";
+var visitor_uid = "";
 
 // $.getScript( "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js", function( data, textStatus, jqxhr ) {
 //   console.log( data ); // Data returned
@@ -17,6 +18,7 @@ var timezone_offset = "";
 //   console.log( "Load was performed." );
 // });
 
+// po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
     var loader = function(src,handler){
@@ -41,12 +43,11 @@ function loadScripts(array,callback){
 loadScripts([
    "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js"
 ],function(){
-    alert('All things are loaded');
 
-    var logger = new X();
-    
+    console.log("All things are loaded");
+
     //extended fonts option
-var fp = new Fingerprint2({extendedJsFonts: true});
+    var fp = new Fingerprint2({extendedJsFonts: true});
 
     fp.get(function(result, components) {
 
@@ -60,6 +61,9 @@ var fp = new Fingerprint2({extendedJsFonts: true});
     timezone_offset = components[7].value;
     canvas_fingerprint = components[16].value;
     webgl_fingerprint = components[17].value;
+
+    // create logger and begin logging
+    var logger = new X();
 
     if(typeof window.console !== "undefined") {
         for (var index in components) {
@@ -137,13 +141,14 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
-    var visitorUID=getCookie("visitorUID");
+    visitor_uid = getCookie("visitor_uid");
     if (visitorUID != "") {
-        alert("Welcome again visitor with UID " + visitorUID);
+        console.log("Welcome again visitor with UID " + visitorUID);
     } else {
        generatedUID = guid();
        if (generatedUID != "" && generatedUID != null) {
-           setCookie("visitorUID", generatedUID, 100);
+           setCookie("visitor_uid", generatedUID, 100);
+           visitor_uid = generatedUID;
        }
     }
 }
@@ -493,7 +498,8 @@ X.prototype.eventReceived = function (ev) {
             pixel_ratio,
             timezone_offset,
             canvas_fingerprint,
-            webgl_fingerprint
+            webgl_fingerprint,
+            visitor_uid
             );
     }
 
@@ -615,7 +621,8 @@ function visitorProperties() {
         "pixel_ratio" : "",
         "timezone_offset" : "",
         "canvas_fingerprint" : "",
-        "webgl_fingerprint" : ""
+        "webgl_fingerprint" : "",
+        "visitor_uid" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -648,6 +655,7 @@ function visitorProperties() {
     data.timezone_offset = arguments[22];
     data.canvas_fingerprint = arguments[23];
     data.webgl_fingerprint = arguments[24];
+    data.visitorUID = arguments[25];
 
 
     return JSON.stringify(data);
@@ -743,6 +751,4 @@ X.prototype.send = function (url, data) {
 X.prototype.sendBeaconSupported = function () {
     return (navigator.sendBeacon != null);
 }
-
-// var logger = new X();
 
