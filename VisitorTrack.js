@@ -655,7 +655,7 @@ function visitorProperties() {
     data.timezone_offset = arguments[22];
     data.canvas_fingerprint = arguments[23];
     data.webgl_fingerprint = arguments[24];
-    data.visitorUID = arguments[25];
+    data.visitor_uid = arguments[25];
 
 
     return JSON.stringify(data);
