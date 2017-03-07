@@ -42,6 +42,9 @@ loadScripts([
    "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js"
 ],function(){
     alert('All things are loaded');
+
+    var logger = new X();
+    
     //extended fonts option
 var fp = new Fingerprint2({extendedJsFonts: true});
 
@@ -741,5 +744,5 @@ X.prototype.sendBeaconSupported = function () {
     return (navigator.sendBeacon != null);
 }
 
-var logger = new X();
+// var logger = new X();
 
