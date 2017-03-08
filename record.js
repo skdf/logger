@@ -6,6 +6,12 @@ var visitorProperty = "";
 
 var apiKey = "";
 
+var browser_fingerprint = "";
+var pixel_ratio = "";
+var canvas_fingerprint = "";
+var webgl_fingerprint = "";
+var timezone_offset = "";
+var visitor_uid = "";
 
 function guid() {
     function _p8(s) {
@@ -13,6 +19,101 @@ function guid() {
         return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
     }
     return _p8() + _p8(true) + _p8(true) + _p8();
+}
+
+// po nacitani scriptov sa spusti logovanie
+// script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
+function loadScripts(array,callback){
+    var loader = function(src,handler){
+        var script = document.createElement("script");
+        script.src = src;
+        script.onload = script.onreadystatechange = function(){
+            script.onreadystatechange = script.onload = null;
+            handler();
+        }
+        var head = document.getElementsByTagName("head")[0];
+        (head || document.body).appendChild( script );
+    };
+    (function run(){
+        if(array.length!=0){
+            loader(array.shift(), run);
+        }else{
+            callback && callback();
+        }
+    })();
+}
+
+loadScripts([
+   "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js"
+],function(){
+
+    console.log("All things are loaded");
+
+    // create logger and begin logging
+    //var logger = new X();
+
+    //extended fonts option
+    var fp = new Fingerprint2({extendedJsFonts: true});
+
+    fp.get(function(result, components) {
+
+    console.log(result + " browser fingerprint with extended fonts");
+
+    // save browser fingerprint
+    browser_fingerprint = result;
+
+    //save canvas and webgl fingerprint, timezone offset, pixel ratio
+    pixel_ratio = components[3].value;
+    timezone_offset = components[7].value;
+    canvas_fingerprint = components[16].value;
+    webgl_fingerprint = components[17].value;
+
+    if(typeof window.console !== "undefined") {
+        for (var index in components) {
+        var obj = components[index];
+        var value = obj.value;
+        var line = obj.key + " = " + value.toString().substr(0, 100);
+        console.log(line);
+        }
+    }
+    });
+});
+
+// set, get and check cookie functions by https://www.w3schools.com/js/js_cookies.asp
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    visitor_uid = getCookie("visitor_uid");
+    if (visitor_uid != "") {
+        console.log("Welcome again visitor with UID " + visitor_uid);
+    } else {
+       generatedUID = guid();
+       if (generatedUID != "" && generatedUID != null) {
+           setCookie("visitor_uid", generatedUID, 100);
+           visitor_uid = generatedUID;
+       }
+    }
 }
 
 function parseQuery ( query ) {
@@ -32,6 +133,10 @@ function parseQuery ( query ) {
 
 function X()
 {
+
+    //when user came to site check cookie
+    checkCookie()
+
     var x = this;
 
     this.httpendpoint = window.location.href;
@@ -204,7 +309,33 @@ X.prototype.eventReceived = function (ev) {
 
     if (this.logEventCount == 0) {
         var time = new Date();
-        visitorProperty = visitorProperties(new Date().getTime(), 'size', screen.width, screen.height, jQuery(window).width(), jQuery(window).height(), jQuery(document).width(), jQuery(document).height(), screen.colorDepth, time.getTimezoneOffset(), browserName, fullVersion, majorVersion, navigator.appName, cookie, language, platform, comesFrom, bot);;
+        visitorProperty = visitorProperties(
+            new Date().getTime(),
+            'size', 
+            screen.width, 
+            screen.height, 
+            jQuery(window).width(), 
+            jQuery(window).height(), 
+            jQuery(document).width(), 
+            jQuery(document).height(), 
+            screen.colorDepth, 
+            time.getTimezoneOffset(), 
+            browserName, 
+            fullVersion, 
+            majorVersion, 
+            navigator.appName, 
+            cookie, 
+            language, 
+            platform, 
+            comesFrom, 
+            bot,
+            browser_fingerprint,
+            pixel_ratio,
+            timezone_offset,
+            canvas_fingerprint,
+            webgl_fingerprint,
+            visitor_uid
+            );;
     }
     if (ev.type == 'click') {
         this.sendLog(new Date().getTime(), ev.type, ev.clientX, ev.clientY, ev.target.localName);
@@ -307,7 +438,13 @@ function visitorProperties() {
         "platform" : "",
 		"comes_from" : "",
         "bot" : "",
-		"api_key" : ""
+		"api_key" : "",
+        "browser_fingerprint" : "",
+        "pixel_ratio" : "",
+        "timezone_offset" : "",
+        "canvas_fingerprint" : "",
+        "webgl_fingerprint" : "",
+        "visitor_uid" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -333,6 +470,13 @@ function visitorProperties() {
     data.bot = arguments[18];
 
     data.api_key = apiKey;
+
+    data.browser_fingerprint = arguments[19];
+    data.pixel_ratio = arguments[20];
+    data.timezone_offset = arguments[21];
+    data.canvas_fingerprint = arguments[22];
+    data.webgl_fingerprint = arguments[23];
+    data.visitor_uid = arguments[24];
 
     return JSON.stringify(data);
 }
@@ -408,9 +552,9 @@ X.prototype.close = function () {
 };
 
 X.prototype.send = function (url, data) {
-    if (this.sendBeaconSupported() && useSendBeacon)
-       navigator.sendBeacon(url, data) == true;
-    else {
+    // if (this.sendBeaconSupported() && useSendBeacon)
+    //    navigator.sendBeacon(url, data) == true;
+    // else {
         jQuery.ajax({
             type: 'POST',
             contentType: "text/plain",
@@ -421,7 +565,7 @@ X.prototype.send = function (url, data) {
             processData: false,
             data: data
         });
-    }
+    //}
 }
 
 
