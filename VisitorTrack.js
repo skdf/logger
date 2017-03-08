@@ -11,13 +11,6 @@ var webgl_fingerprint = "";
 var timezone_offset = "";
 var visitor_uid = "";
 
-// $.getScript( "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js", function( data, textStatus, jqxhr ) {
-//   console.log( data ); // Data returned
-//   console.log( textStatus ); // Success
-//   console.log( jqxhr.status ); // 200
-//   console.log( "Load was performed." );
-// });
-
 // po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
@@ -46,9 +39,6 @@ loadScripts([
 
     console.log("All things are loaded");
 
-    // create logger and begin logging
-    //var logger = new X();
-
     //extended fonts option
     var fp = new Fingerprint2({extendedJsFonts: true});
 
@@ -58,12 +48,6 @@ loadScripts([
 
     // save browser fingerprint
     browser_fingerprint = result;
-
-    //save canvas and webgl fingerprint, timezone offset, pixel ratio
-    //pixel_ratio = components[3].value;
-    //timezone_offset = components[7].value;
-    //canvas_fingerprint = components[16].value;
-    //webgl_fingerprint = components[17].value;
 
     for (var index in components) {
         var obj = components[index];
@@ -78,50 +62,19 @@ loadScripts([
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
         } 
+
+        if(typeof window.console !== "undefined") {
+            var line = obj.key + " = " + value.toString().substr(0, 100);
+            console.log(line);
+        }
     }
 
-    // if(typeof window.console !== "undefined") {
-    //     for (var index in components) {
-    //     var obj = components[index];
-    //     var value = obj.value;
-    //     var line = obj.key + " = " + value.toString().substr(0, 100);
-    //     console.log(line);
-    //     }
-    // }
+
+    // create logger and begin logging
+    var logger = new X();
+
     });
 });
-
-// var my_awesome_script = document.createElement('script');
-
-// my_awesome_script.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js');
-
-// document.head.appendChild(my_awesome_script);
-
-// //extended fonts option
-// var fp = new Fingerprint2({extendedJsFonts: true});
-
-// fp.get(function(result, components) {
-
-//     console.log(result + " browser fingerprint with extended fonts");
-
-//     // save browser fingerprint
-//     browser_fingerprint = result;
-
-//     //save canvas and webgl fingerprint, timezone offset, pixel ratio
-//     pixel_ratio = components[3].value;
-//     timezone_offset = components[7].value;
-//     canvas_fingerprint = components[16].value;
-//     webgl_fingerprint = components[17].value;
-
-//     if(typeof window.console !== "undefined") {
-//         for (var index in components) {
-//         var obj = components[index];
-//         var value = obj.value;
-//         var line = obj.key + " = " + value.toString().substr(0, 100);
-//         console.log(line);
-//         }
-//     }
-// });
 
 function guid() {
     function _p8(s) {
@@ -173,66 +126,6 @@ function X()
 
     //when user came to site check cookie
     checkCookie()
-
-    // used fingerprint source https://github.com/Valve/fingerprintjs2
-
-    //get browser fingerprint
-    // new Fingerprint2().get(function(result){
-    // console.log(result + " device fingerprint"); //a hash, representing your device fingerprint
-    // });
-
-    // new Fingerprint2().get(function(result, components){
-    // console.log(result + " browser fingerprint");
-    // console.log(components);
-    // });
-
-    // new Fingerprint2({
-    //     extendedJsFonts: true
-    // }).get(function(result, components){
-    //     console.log(result + " browser fingerprint with extended fonts");
-    //     console.log(components);
-    //     });
-
-      // var d1 = new Date();
-      // var fp = new Fingerprint2();
-      // fp.get(function(result, components) {
-
-      //   console.log(result + " browser fingerprint");
-
-      //   var d2 = new Date();
-      //   var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
-      //   if(typeof window.console !== "undefined") {
-      //     console.log(timeString);
-      //     console.log(result);
-      //     for (var index in components) {
-      //       var obj = components[index];
-      //       var value = obj.value;
-      //       var line = obj.key + " = " + value.toString().substr(0, 100);
-      //       console.log(line);
-      //     }
-      //   }
-      // });
-
-      //extended fonts option
-      // var d3 = new Date();
-      // var fp = new Fingerprint2({extendedJsFonts: true});
-      // fp.get(function(result, components) {
-
-      //   console.log(result + " browser fingerprint with extended fonts");
-
-      //   var d4 = new Date();
-      //   var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
-      //   if(typeof window.console !== "undefined") {
-      //     console.log(timeString);
-      //     console.log(result);
-      //     for (var index in components) {
-      //       var obj = components[index];
-      //       var value = obj.value;
-      //       var line = obj.key + " = " + value.toString().substr(0, 100);
-      //       console.log(line);
-      //     }
-      //   }
-      // });
 
     var x = this;
 
@@ -767,4 +660,4 @@ X.prototype.sendBeaconSupported = function () {
     return (navigator.sendBeacon != null);
 }
 
-var logger = new X();
+//var logger = new X();
