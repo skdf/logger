@@ -46,6 +46,9 @@ loadScripts([
 
     console.log("All things are loaded");
 
+    // create logger and begin logging
+    var logger = new X();
+
     //extended fonts option
     var fp = new Fingerprint2({extendedJsFonts: true});
 
@@ -61,9 +64,6 @@ loadScripts([
     timezone_offset = components[7].value;
     canvas_fingerprint = components[16].value;
     webgl_fingerprint = components[17].value;
-
-    // create logger and begin logging
-    var logger = new X();
 
     if(typeof window.console !== "undefined") {
         for (var index in components) {
