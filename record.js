@@ -82,7 +82,7 @@ loadScripts([
 
             if (str == '"') {
                 var resultWebglString = webgl_fingerprint.slice(1, -1);
-                webgl_fingerprint = resultWebglString;
+                webgl_fingerprint = "test string"//resultWebglString;
             }
 
         } else if (obj.key == "canvas") {
