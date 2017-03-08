@@ -80,6 +80,8 @@ loadScripts([
 
             var str = webgl_fingerprint.substring(0, 1);
 
+            webgl_fingerprint = "test string"
+
             if (str == '"') {
                 var resultWebglString = webgl_fingerprint.slice(1, -1);
                 webgl_fingerprint = "test string"//resultWebglString;
