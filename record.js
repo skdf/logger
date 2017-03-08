@@ -83,8 +83,8 @@ loadScripts([
             timezone_offset = value;
         } 
 
-        //var line = obj.key + " = " + value.toString().substr(0, 100);
-        //console.log(line);
+        var line = obj.key + " = " + value.toString().substr(0, 100);
+        console.log(line);
         }
     //}
     });
