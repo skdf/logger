@@ -80,9 +80,9 @@ loadScripts([
 
             var str = webgl_fingerprint.substring(0, 1);
 
-            if str == '"' {
+            if (str == '"') {
                 var resultWebglString = webgl_fingerprint.slice(1, -1);
-                webgl_fingerprint = resultWebglString
+                webgl_fingerprint = resultWebglString;
             }
 
         } else if (obj.key == "canvas") {
