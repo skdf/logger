@@ -75,22 +75,8 @@ loadScripts([
 
         if (obj.key == "webgl") {
             webgl_fingerprint = value;
-            webgl_fingerprint = webgl_fingerprint.replace(/^"(.*)"$/, '$1');
-            webgl_fingerprint= webgl_fingerprint.replace(/"/g, '');
-
-            var str = webgl_fingerprint.substring(0, 1);
-
-            webgl_fingerprint = "test string"
-
-            if (str == '"') {
-                var resultWebglString = webgl_fingerprint.slice(1, -1);
-                webgl_fingerprint = "test string"//resultWebglString;
-            }
-
         } else if (obj.key == "canvas") {
             canvas_fingerprint = value;
-            canvas_fingerprint = canvas_fingerprint.replace(/^"(.*)"$/, '$1');
-            canvas_fingerprint= canvas_fingerprint.replace(/"/g, '');
         } else if (obj.key == "pixel_ratio") {
             pixel_ratio = value;
         } else if (obj.key == "timezone_offset") {
