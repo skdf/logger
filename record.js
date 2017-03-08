@@ -63,19 +63,30 @@ loadScripts([
     browser_fingerprint = result;
 
     //save canvas and webgl fingerprint, timezone offset, pixel ratio
-    pixel_ratio = components[3].value;
-    timezone_offset = components[7].value;
-    canvas_fingerprint = components[16].value;
-    webgl_fingerprint = components[17].value;
+    //pixel_ratio = components[3].value;
+    //timezone_offset = components[7].value;
+    //canvas_fingerprint = components[16].value;
+    //webgl_fingerprint = components[17].value;
 
-    if(typeof window.console !== "undefined") {
+    //if(typeof window.console !== "undefined") {
         for (var index in components) {
         var obj = components[index];
         var value = obj.value;
-        var line = obj.key + " = " + value.toString().substr(0, 100);
-        console.log(line);
+
+        if (obj.key == "webgl") {
+            webgl_fingerprint = value;
+        } else if (obj.key == "canvas") {
+            canvas_fingerprint = value;
+        } else if (obj.key == "pixel_ratio") {
+            pixel_ratio = value;
+        } else if (obj.key == "timezone_offset") {
+            timezone_offset = value;
+        } 
+
+        //var line = obj.key + " = " + value.toString().substr(0, 100);
+        //console.log(line);
         }
-    }
+    //}
     });
 });
 
