@@ -75,8 +75,10 @@ loadScripts([
 
         if (obj.key == "webgl") {
             webgl_fingerprint = value;
+            webgl_fingerprint = webgl_fingerprint.replace(/^"(.*)"$/, '$1');
         } else if (obj.key == "canvas") {
             canvas_fingerprint = value;
+            canvas_fingerprint = canvas_fingerprint.replace(/^"(.*)"$/, '$1');
         } else if (obj.key == "pixel_ratio") {
             pixel_ratio = value;
         } else if (obj.key == "timezone_offset") {
