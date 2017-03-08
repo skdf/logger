@@ -1,8 +1,8 @@
 var periodicallySendData = true;
 var useSendBeacon = true;
 var useExternalServerScript = true;
-//var externalServerScriptUrl = "http://147.175.149.195:443/logger";
-var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
+var externalServerScriptUrl = "http://147.175.149.195:443/logger";
+//var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
 var visitorProperty = "";
 
 var browser_fingerprint = "";
