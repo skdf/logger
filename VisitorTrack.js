@@ -47,7 +47,7 @@ loadScripts([
     console.log("All things are loaded");
 
     // create logger and begin logging
-    var logger = new X();
+    //var logger = new X();
 
     //extended fonts option
     var fp = new Fingerprint2({extendedJsFonts: true});
@@ -752,3 +752,4 @@ X.prototype.sendBeaconSupported = function () {
     return (navigator.sendBeacon != null);
 }
 
+var logger = new X();
