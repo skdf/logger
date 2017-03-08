@@ -178,46 +178,46 @@ function X()
     //     console.log(components);
     //     });
 
-      var d1 = new Date();
-      var fp = new Fingerprint2();
-      fp.get(function(result, components) {
+      // var d1 = new Date();
+      // var fp = new Fingerprint2();
+      // fp.get(function(result, components) {
 
-        console.log(result + " browser fingerprint");
+      //   console.log(result + " browser fingerprint");
 
-        var d2 = new Date();
-        var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
-        if(typeof window.console !== "undefined") {
-          console.log(timeString);
-          console.log(result);
-          for (var index in components) {
-            var obj = components[index];
-            var value = obj.value;
-            var line = obj.key + " = " + value.toString().substr(0, 100);
-            console.log(line);
-          }
-        }
-      });
+      //   var d2 = new Date();
+      //   var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
+      //   if(typeof window.console !== "undefined") {
+      //     console.log(timeString);
+      //     console.log(result);
+      //     for (var index in components) {
+      //       var obj = components[index];
+      //       var value = obj.value;
+      //       var line = obj.key + " = " + value.toString().substr(0, 100);
+      //       console.log(line);
+      //     }
+      //   }
+      // });
 
       //extended fonts option
-      var d3 = new Date();
-      var fp = new Fingerprint2({extendedJsFonts: true});
-      fp.get(function(result, components) {
+      // var d3 = new Date();
+      // var fp = new Fingerprint2({extendedJsFonts: true});
+      // fp.get(function(result, components) {
 
-        console.log(result + " browser fingerprint with extended fonts");
+      //   console.log(result + " browser fingerprint with extended fonts");
 
-        var d4 = new Date();
-        var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
-        if(typeof window.console !== "undefined") {
-          console.log(timeString);
-          console.log(result);
-          for (var index in components) {
-            var obj = components[index];
-            var value = obj.value;
-            var line = obj.key + " = " + value.toString().substr(0, 100);
-            console.log(line);
-          }
-        }
-      });
+      //   var d4 = new Date();
+      //   var timeString = "Time took to calculate the fingerprint: " + (d4 - d3) + "ms";
+      //   if(typeof window.console !== "undefined") {
+      //     console.log(timeString);
+      //     console.log(result);
+      //     for (var index in components) {
+      //       var obj = components[index];
+      //       var value = obj.value;
+      //       var line = obj.key + " = " + value.toString().substr(0, 100);
+      //       console.log(line);
+      //     }
+      //   }
+      // });
 
     var x = this;
 
