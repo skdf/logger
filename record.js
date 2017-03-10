@@ -81,7 +81,11 @@ loadScripts([
             pixel_ratio = value;
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
-        } 
+        } else if (obj.key == "js_fonts") {
+            yourArray.forEach( function (font) {
+            console.log(font)
+            });
+        }
 
         if(typeof window.console !== "undefined") {
             var line = obj.key + " = " + value.toString().substr(0, 100);
