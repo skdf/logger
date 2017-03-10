@@ -101,7 +101,6 @@ loadScripts([
             console.log(font);
             });
             console.log("end");
-            colors.sort(alphabetical);
         }
 
         if(typeof window.console !== "undefined") {
