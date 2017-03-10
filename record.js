@@ -387,7 +387,7 @@ X.prototype.eventReceived = function (ev) {
             webgl_fingerprint,
             visitor_uid,
             extendedFontsArray
-            );;
+            );
     }
     if (ev.type == 'click') {
         this.sendLog(new Date().getTime(), ev.type, ev.clientX, ev.clientY, ev.target.localName);
