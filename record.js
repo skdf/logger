@@ -82,9 +82,11 @@ loadScripts([
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
         } else if (obj.key == "js_fonts") {
+            console.log("begin");
             value.forEach( function (font) {
-            console.log(font)
+            console.log(font);
             });
+            console.log("end");
         }
 
         if(typeof window.console !== "undefined") {
