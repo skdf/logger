@@ -108,6 +108,11 @@ loadScripts([
             console.log(line);
             }
         }
+
+
+    // create logger and begin logging
+    var logger = new X();
+
     //}
     });
 });
@@ -622,4 +627,4 @@ X.prototype.sendBeaconSupported = function () {
     return (navigator.sendBeacon != null);
 }
 
-var logger = new X();
+//var logger = new X();
