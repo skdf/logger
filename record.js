@@ -82,7 +82,7 @@ loadScripts([
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
         } else if (obj.key == "js_fonts") {
-            yourArray.forEach( function (font) {
+            value.forEach( function (font) {
             console.log(font)
             });
         }
