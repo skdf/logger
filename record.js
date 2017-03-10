@@ -13,6 +13,8 @@ var webgl_fingerprint = "";
 var timezone_offset = "";
 var visitor_uid = "";
 
+var font_list = "";
+
 function guid() {
     function _p8(s) {
         var p = (Math.random().toString(16)+"000000000").substr(2,8);
@@ -82,11 +84,24 @@ loadScripts([
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
         } else if (obj.key == "js_fonts") {
+
+            var fontArray = value;
+            var sortedFontArray = [];
+
+            fontArray.sort(alphabetical);
+
+
             console.log("begin");
+
+            // for (var i = 0; i < unsortedFontArray.length; i++) {
+            //     console.log(myArray[j].x);
+            // }
+
             value.forEach( function (font) {
             console.log(font);
             });
             console.log("end");
+            colors.sort(alphabetical);
         }
 
         if(typeof window.console !== "undefined") {
@@ -97,6 +112,18 @@ loadScripts([
     //}
     });
 });
+
+function alphabetical(a, b) {
+    var A = a.toLowerCase();
+    var B = b.toLowerCase();
+                if (A < B){
+                    return -1;
+                } else if (A > B) {
+                    return  1;
+                } else {
+                    return 0;
+                }
+}
 
 // set, get and check cookie functions by https://www.w3schools.com/js/js_cookies.asp
 function setCookie(cname,cvalue,exdays) {
