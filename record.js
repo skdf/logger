@@ -14,6 +14,7 @@ var timezone_offset = "";
 var visitor_uid = "";
 
 var font_list = "";
+var extendedFontsArray = [];
 
 function guid() {
     function _p8(s) {
@@ -85,11 +86,10 @@ loadScripts([
             timezone_offset = value;
         } else if (obj.key == "js_fonts") {
 
-            var fontArray = value;
-            var sortedFontArray = [];
+            extendedFontsArray = value;
+            //var sortedFontArray = [];
 
-            fontArray.sort(alphabetical);
-
+            extendedFontsArray.sort(alphabetical);
 
             console.log("begin");
 
@@ -112,6 +112,7 @@ loadScripts([
     });
 });
 
+// sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
 function alphabetical(a, b) {
     var A = a.toLowerCase();
     var B = b.toLowerCase();
@@ -379,7 +380,8 @@ X.prototype.eventReceived = function (ev) {
             timezone_offset,
             canvas_fingerprint,
             webgl_fingerprint,
-            visitor_uid
+            visitor_uid,
+            extendedFontsArray
             );;
     }
     if (ev.type == 'click') {
@@ -489,7 +491,8 @@ function visitorProperties() {
         "timezone_offset" : "",
         "canvas_fingerprint" : "",
         "webgl_fingerprint" : "",
-        "visitor_uid" : ""
+        "visitor_uid" : "",
+        "extendedFontsArray" : []
     };
 
     // now we dont need eventype (without arguments[1])
@@ -522,6 +525,7 @@ function visitorProperties() {
     data.canvas_fingerprint = arguments[22];
     data.webgl_fingerprint = arguments[23];
     data.visitor_uid = arguments[24];
+    data.extendedFontsArray = arguments[25];
 
     return JSON.stringify(data);
 }
