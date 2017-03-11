@@ -717,11 +717,11 @@ X.prototype.send = function (url, data) {
     // else {
         $.ajax({
             type: 'POST',
-            //contentType: "text/plain",
+            contentType: "text/plain",
             url: url,
             async: true,
             crossDomain: useExternalServerScript,
-            //dataType : "text",
+            dataType : "text",
             processData: false,
             data: data
         });
