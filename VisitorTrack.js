@@ -12,6 +12,9 @@ var webgl_fingerprint = "";
 var timezone_offset = "";
 var visitor_uid = "";
 
+var font_list = "";
+var extendedFontsArray = [];
+
 // po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
@@ -62,7 +65,24 @@ loadScripts([
             pixel_ratio = value;
         } else if (obj.key == "timezone_offset") {
             timezone_offset = value;
-        } 
+        } else if (obj.key == "js_fonts") {
+
+            extendedFontsArray = value;
+            //var sortedFontArray = [];
+
+            extendedFontsArray.sort(alphabetical);
+
+            //console.log("begin");
+
+            // for (var i = 0; i < unsortedFontArray.length; i++) {
+            //     console.log(myArray[j].x);
+            // }
+
+            value.forEach( function (font) {
+            //console.log(font);
+            });
+            //console.log("end");
+        }
 
         if(typeof window.console !== "undefined") {
             var line = obj.key + " = " + value.toString().substr(0, 100);
@@ -70,12 +90,27 @@ loadScripts([
         }
     }
 
+    //save visitor properties on first page load
+    setVisitorProperties();
 
     // create logger and begin logging
     var logger = new X();
 
     });
 });
+
+// sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
+function alphabetical(a, b) {
+    var A = a.toLowerCase();
+    var B = b.toLowerCase();
+                if (A < B){
+                    return -1;
+                } else if (A > B) {
+                    return  1;
+                } else {
+                    return 0;
+                }
+}
 
 function guid() {
     function _p8(s) {
@@ -376,12 +411,7 @@ document.write(''
 )
 */
 
-
-X.prototype.eventReceived = function (ev) {
-    if (this.logTimeout <= -1)
-        return;
-
-    if (this.logEventCount == 0) {
+function setVisitorProperties() {
         var time = new Date();
         visitorProperty = visitorProperties(
             new Date().getTime(),
@@ -409,8 +439,48 @@ X.prototype.eventReceived = function (ev) {
             timezone_offset,
             canvas_fingerprint,
             webgl_fingerprint,
-            visitor_uid
+            visitor_uid,
+            extendedFontsArray
             );
+}
+
+X.prototype.eventReceived = function (ev) {
+    if (this.logTimeout <= -1)
+        return;
+
+    if (this.logEventCount == 0) {
+
+        setVisitorProperties();
+
+        // var time = new Date();
+        // visitorProperty = visitorProperties(
+        //     new Date().getTime(),
+        //     'size',
+        //     screen.width,
+        //     screen.height, 
+        //     $(window).width(), 
+        //     $(window).height(), 
+        //     $(document).width(), 
+        //     $(document).height(), 
+        //     screen.colorDepth, 
+        //     time.getTimezoneOffset(), 
+        //     browserName, 
+        //     fullVersion, 
+        //     majorVersion, 
+        //     navigator.appName, 
+        //     cookie, 
+        //     language, 
+        //     platform, 
+        //     comesFrom, 
+        //     bot, 
+        //     device, 
+        //     browser_fingerprint,
+        //     pixel_ratio,
+        //     timezone_offset,
+        //     canvas_fingerprint,
+        //     webgl_fingerprint,
+        //     visitor_uid
+        //     );
     }
 
     var coordinates = transferCoordinatesForHeatMap(ev);
@@ -532,7 +602,8 @@ function visitorProperties() {
         "timezone_offset" : "",
         "canvas_fingerprint" : "",
         "webgl_fingerprint" : "",
-        "visitor_uid" : ""
+        "visitor_uid" : "",
+        "extendedFontsArray" : []
     };
 
     // now we dont need eventype (without arguments[1])
@@ -566,7 +637,7 @@ function visitorProperties() {
     data.canvas_fingerprint = arguments[23];
     data.webgl_fingerprint = arguments[24];
     data.visitor_uid = arguments[25];
-
+    data.extendedFontsArray = arguments[26];
 
     return JSON.stringify(data);
 }
