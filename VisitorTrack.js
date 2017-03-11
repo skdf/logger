@@ -385,7 +385,8 @@ X.prototype.eventReceived = function (ev) {
         var time = new Date();
         visitorProperty = visitorProperties(
             new Date().getTime(),
-            'size', screen.width,
+            'size',
+            screen.width,
             screen.height, 
             $(window).width(), 
             $(window).height(), 

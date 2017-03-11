@@ -110,6 +110,9 @@ loadScripts([
         }
 
 
+    //save visitor properties on first page load
+    setVisitorProperties();
+
     // create logger and begin logging
     var logger = new X();
 
@@ -353,13 +356,8 @@ if(nAgt==("Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.ht
     bot=1;
 }
 
-
-X.prototype.eventReceived = function (ev) {
-    if (this.logTimeout <= -1)
-        return;
-
-    if (this.logEventCount == 0) {
-        var time = new Date();
+function setVisitorProperties() {
+    var time = new Date();
         visitorProperty = visitorProperties(
             new Date().getTime(),
             'size', 
@@ -388,6 +386,46 @@ X.prototype.eventReceived = function (ev) {
             visitor_uid,
             extendedFontsArray
             );
+}
+
+
+X.prototype.eventReceived = function (ev) {
+    if (this.logTimeout <= -1)
+        return;
+
+    if (this.logEventCount == 0) {
+
+        setVisitorProperties();
+
+        // var time = new Date();
+        // visitorProperty = visitorProperties(
+        //     new Date().getTime(),
+        //     'size', 
+        //     screen.width, 
+        //     screen.height, 
+        //     jQuery(window).width(), 
+        //     jQuery(window).height(), 
+        //     jQuery(document).width(), 
+        //     jQuery(document).height(), 
+        //     screen.colorDepth, 
+        //     time.getTimezoneOffset(), 
+        //     browserName, 
+        //     fullVersion, 
+        //     majorVersion, 
+        //     navigator.appName, 
+        //     cookie, 
+        //     language, 
+        //     platform, 
+        //     comesFrom, 
+        //     bot,
+        //     browser_fingerprint,
+        //     pixel_ratio,
+        //     timezone_offset,
+        //     canvas_fingerprint,
+        //     webgl_fingerprint,
+        //     visitor_uid,
+        //     extendedFontsArray
+        //     );
     }
     if (ev.type == 'click') {
         this.sendLog(new Date().getTime(), ev.type, ev.clientX, ev.clientY, ev.target.localName);
@@ -468,6 +506,7 @@ function createJson  (args,event){
 
     return JSON.stringify(data);
 }
+
 function visitorProperties() {
 
     var data = {
