@@ -51,7 +51,8 @@ function loadScripts(array,callback){
 }
 
 loadScripts([
-   "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js"
+   "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js",
+   "https://rawgit.com/faisalman/ua-parser-js/master/src/ua-parser.js"
 ],function(){
 
     console.log("All things are loaded");
