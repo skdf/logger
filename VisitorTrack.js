@@ -5,6 +5,17 @@ var useExternalServerScript = true;
 var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
 var visitorProperty = "";
 
+var nVer = navigator.appVersion;
+var nAgt = navigator.userAgent;
+var browserName  = navigator.appName;
+var fullVersion  = ''+parseFloat(navigator.appVersion); 
+var majorVersion = parseInt(navigator.appVersion,10);
+var nameOffset,verOffset,ix;
+var cookie = navigator.cookieEnabled;
+var language = navigator.language;
+var platform = navigator.platform;
+var device;
+
 var browser_fingerprint = "";
 var pixel_ratio = "";
 var canvas_fingerprint = "";
@@ -14,6 +25,8 @@ var visitor_uid = "";
 
 var font_list = "";
 var extendedFontsArray = [];
+
+var visitor_nickname = ""
 
 // po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
@@ -92,6 +105,13 @@ loadScripts([
 
     //when user came to site check cookie
     checkCookie()
+
+    var parser = new UAParser();
+    var result = parser.getResult();
+
+    browserName = result.browser.name
+    fullVersion = result.browser.version
+    platform = result.os.name
 
     //save visitor properties on first page load
     setVisitorProperties();
@@ -290,18 +310,6 @@ const TABLET = "Tablet";
 const DESKTOP = "Desktop";
 const DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
-var nVer = navigator.appVersion;
-var nAgt = navigator.userAgent;
-var browserName  = navigator.appName;
-var fullVersion  = ''+parseFloat(navigator.appVersion); 
-var majorVersion = parseInt(navigator.appVersion,10);
-var nameOffset,verOffset,ix;
-
-var cookie = navigator.cookieEnabled;
-var language = navigator.language;
-var platform = navigator.platform;
-var device;
-
 if( DEVICES.test(nAgt) ) {
     device = PHONE;
 } else {
@@ -459,7 +467,8 @@ function setVisitorProperties() {
             canvas_fingerprint,
             webgl_fingerprint,
             visitor_uid,
-            extendedFontsArray
+            extendedFontsArray,
+            visitor_nickname
             );
 }
 
@@ -468,38 +477,7 @@ X.prototype.eventReceived = function (ev) {
         return;
 
     if (this.logEventCount == 0) {
-
         setVisitorProperties();
-
-        // var time = new Date();
-        // visitorProperty = visitorProperties(
-        //     new Date().getTime(),
-        //     'size',
-        //     screen.width,
-        //     screen.height, 
-        //     $(window).width(), 
-        //     $(window).height(), 
-        //     $(document).width(), 
-        //     $(document).height(), 
-        //     screen.colorDepth, 
-        //     time.getTimezoneOffset(), 
-        //     browserName, 
-        //     fullVersion, 
-        //     majorVersion, 
-        //     navigator.appName, 
-        //     cookie, 
-        //     language, 
-        //     platform, 
-        //     comesFrom, 
-        //     bot, 
-        //     device, 
-        //     browser_fingerprint,
-        //     pixel_ratio,
-        //     timezone_offset,
-        //     canvas_fingerprint,
-        //     webgl_fingerprint,
-        //     visitor_uid
-        //     );
     }
 
     var coordinates = transferCoordinatesForHeatMap(ev);
@@ -622,7 +600,8 @@ function visitorProperties() {
         "canvas_fingerprint" : "",
         "webgl_fingerprint" : "",
         "visitor_uid" : "",
-        "extendedFontsArray" : []
+        "extendedFontsArray" : [],
+        "visitor_nickname" : ""
     };
 
     // now we dont need eventype (without arguments[1])
@@ -657,6 +636,7 @@ function visitorProperties() {
     data.webgl_fingerprint = arguments[24];
     data.visitor_uid = arguments[25];
     data.extendedFontsArray = arguments[26];
+    data.visitor_nickname = arguments[27];
 
     return JSON.stringify(data);
 }
