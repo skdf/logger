@@ -96,23 +96,24 @@ loadScripts([
     //save visitor properties on first page load
     setVisitorProperties();
 
-    var ec = new evercookie();
+    // var ec = new evercookie();
+    // var ecookie = new evercookie();
 
-    ec.set("id", visitor_uid);
+    // ec.set("id", visitor_uid);
 
-     // retrieve a cookie called "id" (simply)
-    ec.get("id", function(value) { alert("Cookie value is " + value) });
+    //  // retrieve a cookie called "id" (simply)
+    // ec.get("id", function(value) { alert("Cookie value is " + value) });
 
-    function getCookie(best_candidate, all_candidates) {
-    alert("The retrieved cookie is: " + best_candidate + "\n" +
-      "You can see what each storage mechanism returned " +
-      "by looping through the all_candidates object.");
+    // function getCookie(best_candidate, all_candidates) {
+    // alert("The retrieved cookie is: " + best_candidate + "\n" +
+    //   "You can see what each storage mechanism returned " +
+    //   "by looping through the all_candidates object.");
 
-    for (var item in all_candidates)
-      document.write("Storage mechanism " + item +
-        " returned " + all_candidates[item] + " votes<br>");
-    }
-    ec.get("id", getCookie);
+    // for (var item in all_candidates)
+    //   document.write("Storage mechanism " + item +
+    //     " returned " + all_candidates[item] + " votes<br>");
+    // }
+    // ec.get("id", getCookie);
 
     // create logger and begin logging
     var logger = new X();
