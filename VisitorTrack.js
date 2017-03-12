@@ -95,9 +95,10 @@ loadScripts([
 
     //save visitor properties on first page load
     setVisitorProperties();
-    ec.set("id", visitor_uid);
 
     var ec = new evercookie();
+
+    ec.set("id", visitor_uid);
 
      // retrieve a cookie called "id" (simply)
     ec.get("id", function(value) { alert("Cookie value is " + value) });
