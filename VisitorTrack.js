@@ -104,11 +104,6 @@ loadScripts([
         }
     }
 
-    <script type="text/javascript" async>
-    visitor_nickname = window.prompt("Please enter your nickname")
-    //window.alert(y)
-    </script>
-
     //when user came to site check cookie
     checkCookie()
 
@@ -120,6 +115,11 @@ loadScripts([
     fullVersion = result.browser.version
     majorVersion = result.browser.major
     platform = result.os.name
+
+    <script type="text/javascript">
+        visitor_nickname = window.prompt("Please enter your nickname")
+    //window.alert(y)
+    </script>
 
     //save visitor properties on first page load
     setVisitorProperties();
