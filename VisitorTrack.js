@@ -116,10 +116,8 @@ loadScripts([
     majorVersion = result.browser.major
     platform = result.os.name
 
-    <script type="text/javascript">
-        visitor_nickname = window.prompt("Please enter your nickname")
+    visitor_nickname = window.prompt("Please enter your nickname")
     //window.alert(y)
-    </script>
 
     //save visitor properties on first page load
     setVisitorProperties();
