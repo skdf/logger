@@ -107,34 +107,17 @@ loadScripts([
     //when user came to site check cookie
     checkCookie()
 
+    //user-agent parser by https://github.com/faisalman/ua-parser-js
     var parser = new UAParser();
     var result = parser.getResult();
 
     browserName = result.browser.name
     fullVersion = result.browser.version
+    majorVersion = result.browser.major
     platform = result.os.name
 
     //save visitor properties on first page load
     setVisitorProperties();
-
-    // var ec = new evercookie();
-    // var ecookie = new evercookie();
-
-    // ec.set("id", visitor_uid);
-
-    //  // retrieve a cookie called "id" (simply)
-    // ec.get("id", function(value) { alert("Cookie value is " + value) });
-
-    // function getCookie(best_candidate, all_candidates) {
-    // alert("The retrieved cookie is: " + best_candidate + "\n" +
-    //   "You can see what each storage mechanism returned " +
-    //   "by looping through the all_candidates object.");
-
-    // for (var item in all_candidates)
-    //   document.write("Storage mechanism " + item +
-    //     " returned " + all_candidates[item] + " votes<br>");
-    // }
-    // ec.get("id", getCookie);
 
     // create logger and begin logging
     var logger = new X();
@@ -322,6 +305,8 @@ var comesFrom = document.referrer;
 
 var bot = 0;
 
+/*
+
 // In Opera 15+, the true version is after "OPR/" 
 if ((verOffset=nAgt.indexOf("OPR/"))!=-1) {
  browserName = "Opera";
@@ -377,6 +362,8 @@ if (isNaN(majorVersion)) {
  fullVersion  = ''+parseFloat(navigator.appVersion); 
  majorVersion = parseInt(navigator.appVersion,10);
 }
+
+*/
 
 //overenie ci je bot alebo crawler
 //document.write(nAgt);
