@@ -55,6 +55,14 @@ loadScripts([
    "https://rawgit.com/faisalman/ua-parser-js/master/src/ua-parser.js"
 ],function(){
 
+    // get visitor name from element
+    jQuery(window).bind('load', function() { 
+         var nm = $( "#experiment-name" ).text();
+       var st = $( "#experiment-set" ).text();
+       visitor_nickname = nm + "-" + st; 
+      
+    });
+
     console.log("All things are loaded");
 
     //extended fonts option
@@ -128,14 +136,6 @@ loadScripts([
     platform = result.os.name
 
     //visitor_nickname = window.prompt("Please enter your nickname")
-
-    // get visitor name from element
-    jQuery(window).bind('load', function() { 
-         var nm = $( "#experiment-name" ).text();
-       var st = $( "#experiment-set" ).text();
-       visitor_nickname = nm + "-" + st; 
-      
-    });
 
     //save visitor properties on first page load
     setVisitorProperties();
