@@ -104,6 +104,8 @@ loadScripts([
         }
     }
 
+    deleteAllCookies()
+
     //when user came to site check cookie
     checkCookie()
 
@@ -126,6 +128,8 @@ loadScripts([
       
     });
 
+
+
     //save visitor properties on first page load
     setVisitorProperties();
 
@@ -134,6 +138,19 @@ loadScripts([
 
     });
 });
+
+
+// function by Robert J. Walker from http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
 
 // sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
 function alphabetical(a, b) {
