@@ -104,6 +104,7 @@ loadScripts([
         }
     }
 
+    // create button by David Cochran https://codepen.io/davidcochran/pen/WbWXoa
     var button = document.createElement("button");
     button.innerHTML = "Clear cookies";
 
@@ -150,14 +151,20 @@ loadScripts([
 
 // function by Robert J. Walker from http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
 function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
 
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
+
+    document.cookie = "visitor_uid" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    localStorage.removeItem('mid');
+    sessionStorage.removeItem('sid');
+
+    // var cookies = document.cookie.split(";");
+
+    // for (var i = 0; i < cookies.length; i++) {
+    //     var cookie = cookies[i];
+    //     var eqPos = cookie.indexOf("=");
+    //     var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // }
 }
 
 // sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
