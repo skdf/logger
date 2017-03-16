@@ -31,6 +31,11 @@ var visitor_nickname = ""
 // po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
+
+    $(document).ready(function(){
+    $(this).scrollTop(0);
+    });
+
     var loader = function(src,handler){
         var script = document.createElement("script");
         script.src = src;
