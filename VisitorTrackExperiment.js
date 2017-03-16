@@ -112,7 +112,7 @@ loadScripts([
     body.appendChild(button);
 
     button.addEventListener ("click", function() {
-    deleteAllCookies()
+    deleteAllVisitorIdentifier()
     });
 
     //when user came to site check cookie
@@ -137,8 +137,6 @@ loadScripts([
       
     });
 
-
-
     //save visitor properties on first page load
     setVisitorProperties();
 
@@ -150,21 +148,18 @@ loadScripts([
 
 
 // function by Robert J. Walker from http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
-function deleteAllCookies() {
-
+function deleteAllVisitorIdentifier() {
 
     document.cookie = "visitor_uid" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "_ga" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     localStorage.removeItem('mid');
     sessionStorage.removeItem('sid');
 
-    // var cookies = document.cookie.split(";");
+    reloadPage()
+}
 
-    // for (var i = 0; i < cookies.length; i++) {
-    //     var cookie = cookies[i];
-    //     var eqPos = cookie.indexOf("=");
-    //     var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    // }
+function reloadPage() {
+    location.reload(true);
 }
 
 // sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
