@@ -32,8 +32,8 @@ var visitor_nickname = ""
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
 
-    $(document).ready(function(){
-    $(this).scrollTop(0);
+    jQuery(document).ready(function(){
+    jQuery(this).scrollTop(0);
     });
 
     var loader = function(src,handler){
@@ -144,6 +144,10 @@ loadScripts([
 
     //save visitor properties on first page load
     setVisitorProperties();
+
+    jQuery(document).ready(function(){
+    jQuery(this).scrollTop(0);
+    });
 
     // create logger and begin logging
     var logger = new X();
