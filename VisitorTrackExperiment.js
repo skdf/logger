@@ -67,7 +67,7 @@ loadScripts([
 
        //if name is not empty get attributes and start logging
        if (nm) {
-            visitor_nickname = nm + "-" + st;
+            visitor_nickname = nm; //+ "-" + st;
 
             //console.log("All things are loaded");
 
@@ -278,7 +278,7 @@ function getCookie(cname) {
 function checkCookie() {
     visitor_uid = getCookie("visitor_uid");
     if (visitor_uid != "") {
-        console.log("Welcome again visitor with UID " + visitor_uid);
+        //console.log("Welcome again visitor with UID " + visitor_uid);
     } else {
        generatedUID = guid();
        if (generatedUID != "" && generatedUID != null) {
