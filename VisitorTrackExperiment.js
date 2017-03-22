@@ -1,8 +1,8 @@
 var periodicallySendData = true;
 var useSendBeacon = true;
 var useExternalServerScript = true;
-var externalServerScriptUrl = "http://147.175.149.195:443/logger";
-//var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
+//var externalServerScriptUrl = "http://147.175.149.195:443/logger";
+var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
 var visitorProperty = "";
 
 var nVer = navigator.appVersion;
@@ -32,9 +32,9 @@ var visitor_nickname = ""
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
 
-    jQuery(document).ready(function(){
-    jQuery(this).scrollTop(0);
-    });
+    // jQuery(document).ready(function(){
+    // jQuery(this).scrollTop(0);
+    // });
 
     var loader = function(src,handler){
         var script = document.createElement("script");
@@ -119,15 +119,15 @@ loadScripts([
             }
 
             // create button by David Cochran https://codepen.io/davidcochran/pen/WbWXoa
-            var button = document.createElement("button");
-            button.innerHTML = "Clear cookies";
+            // var button = document.createElement("button");
+            // button.innerHTML = "Clear cookies";
 
-            var body = document.getElementsByTagName("body")[0];
-            body.appendChild(button);
+            // var body = document.getElementsByTagName("body")[0];
+            // body.appendChild(button);
 
-            button.addEventListener ("click", function() {
-            deleteAllVisitorIdentifier()
-            });
+            // button.addEventListener ("click", function() {
+            // deleteAllVisitorIdentifier()
+            // });
 
             //when user came to site check cookie
             checkCookie()
