@@ -62,7 +62,7 @@ loadScripts([
 
     // get visitor name from element
     jQuery(window).bind('load', function() {
-       var nm = jQuery( "#experiment-name" ).text();
+       var nm = "testUser"//jQuery( "#experiment-name" ).text();
        var st = jQuery( "#experiment-set" ).text();
 
        //if name is not empty get attributes and start logging
