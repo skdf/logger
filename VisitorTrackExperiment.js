@@ -1,8 +1,8 @@
 var periodicallySendData = true;
 var useSendBeacon = true;
 var useExternalServerScript = true;
-//var externalServerScriptUrl = "http://147.175.149.195:443/logger";
-var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
+var externalServerScriptUrl = "http://147.175.149.195:443/logger";
+//var externalServerScriptUrl = "http://127.0.0.1:3000/logger";
 var visitorProperty = "";
 
 var nVer = navigator.appVersion;
@@ -62,7 +62,7 @@ loadScripts([
 
     // get visitor name from element
     jQuery(window).bind('load', function() {
-       var nm = "testUser"//jQuery( "#experiment-name" ).text();
+       var nm = jQuery( "#experiment-name" ).text(); //"testUser"
        var st = jQuery( "#experiment-set" ).text();
 
        //if name is not empty get attributes and start logging
@@ -146,9 +146,9 @@ loadScripts([
             //save visitor properties on first page load
             setVisitorProperties();
 
-            jQuery(document).ready(function(){
-            jQuery(this).scrollTop(0);
-            });
+            // jQuery(document).ready(function(){
+            // jQuery(this).scrollTop(0);
+            // });
 
             // create logger and begin logging
             var logger = new X();
