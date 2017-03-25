@@ -102,9 +102,9 @@ loadScripts([
 
                     console.log("begin");
 
-                    for (var i = 0; i < unsortedFontArray.length; i++) {
-                        console.log(myArray[j].x);
-                    }
+                    // for (var i = 0; i < unsortedFontArray.length; i++) {
+                    //     console.log(myArray[j].x);
+                    // }
 
                     //value.forEach( function (font) {
                     //console.log(font);
