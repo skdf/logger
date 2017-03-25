@@ -8,7 +8,7 @@ var visitorProperty = "";
 var nVer = navigator.appVersion;
 var nAgt = navigator.userAgent;
 var browserName  = navigator.appName;
-var fullVersion  = ''+parseFloat(navigator.appVersion); 
+var fullVersion  = ''+parseFloat(navigator.appVersion);
 var majorVersion = parseInt(navigator.appVersion,10);
 var nameOffset,verOffset,ix;
 var cookie = navigator.cookieEnabled;
@@ -31,6 +31,11 @@ var visitor_nickname = ""
 // po nacitani scriptov sa spusti logovanie
 // script loader by nemisj -> http://stackoverflow.com/questions/1866717/document-createelementscript-adding-two-scripts-with-one-callback/1867135#1867135
 function loadScripts(array,callback){
+
+    // jQuery(document).ready(function(){
+    // jQuery(this).scrollTop(0);
+    // });
+
     var loader = function(src,handler){
         var script = document.createElement("script");
         script.src = src;
@@ -55,78 +60,175 @@ loadScripts([
    "https://rawgit.com/faisalman/ua-parser-js/master/src/ua-parser.js"
 ],function(){
 
-    //console.log("All things are loaded");
+    // get visitor name from element
+    jQuery(window).bind('load', function() {
+       var nm = jQuery( "#experiment-name" ).text(); //"testUser"
+       var st = jQuery( "#experiment-set" ).text();
 
-    //extended fonts option
-    var fp = new Fingerprint2({extendedJsFonts: true});
+       //if name is not empty get attributes and start logging
+       if (nm) {
+            visitor_nickname = nm; //+ "-" + st;
 
-    fp.get(function(result, components) {
+            console.log("All things are loaded");
 
-    //console.log(result + " browser fingerprint with extended fonts");
+            //extended fonts option
+            var fp = new Fingerprint2({extendedJsFonts: true});
 
-    // save browser fingerprint
-    browser_fingerprint = result;
+            fp.get(function(result, components) {
 
-    for (var index in components) {
-        var obj = components[index];
-        var value = obj.value;
+            console.log(result + " browser fingerprint with extended fonts");
 
-        if (obj.key == "webgl") {
-            webgl_fingerprint = value;
-        } else if (obj.key == "canvas") {
-            canvas_fingerprint = value;
-        } else if (obj.key == "pixel_ratio") {
-            pixel_ratio = value;
-        } else if (obj.key == "timezone_offset") {
-            timezone_offset = value;
-        } else if (obj.key == "js_fonts") {
+            // save browser fingerprint
+            browser_fingerprint = result;
 
-            extendedFontsArray = value;
-            //var sortedFontArray = [];
+            for (var index in components) {
+                var obj = components[index];
+                var value = obj.value;
 
-            extendedFontsArray.sort(alphabetical);
+                if (obj.key == "webgl") {
+                    webgl_fingerprint = value;
+                } else if (obj.key == "canvas") {
+                    canvas_fingerprint = value;
+                } else if (obj.key == "pixel_ratio") {
+                    pixel_ratio = value;
+                } else if (obj.key == "timezone_offset") {
+                    timezone_offset = value;
+                } else if (obj.key == "js_fonts") {
 
-            //console.log("begin");
+                    extendedFontsArray = value;
+                    //var sortedFontArray = [];
 
-            // for (var i = 0; i < unsortedFontArray.length; i++) {
-            //     console.log(myArray[j].x);
-            // }
+                    extendedFontsArray.sort(alphabetical);
 
-            //value.forEach( function (font) {
-            //console.log(font);
-            //});
-            //console.log("end");
-        }
+                    console.log("begin");
 
-        if(typeof window.console !== "undefined") {
-            //var line = obj.key + " = " + value.toString().substr(0, 100);
-            //console.log(line);
-        }
-    }
+                    for (var i = 0; i < unsortedFontArray.length; i++) {
+                        console.log(myArray[j].x);
+                    }
 
-    //when user came to site check cookie
-    checkCookie()
+                    //value.forEach( function (font) {
+                    //console.log(font);
+                    //});
+                    //console.log("end");
+                }
 
-    //user-agent parser by https://github.com/faisalman/ua-parser-js
-    var parser = new UAParser();
-    var result = parser.getResult();
+                if(typeof window.console !== "undefined") {
+                    var line = obj.key + " = " + value.toString().substr(0, 100);
+                    console.log(line);
+                }
+            }
 
-    browserName = result.browser.name
-    fullVersion = result.browser.version
-    majorVersion = result.browser.major
-    platform = result.os.name
+            // create button by David Cochran https://codepen.io/davidcochran/pen/WbWXoa
+            // var button = document.createElement("button");
+            // button.innerHTML = "Clear cookies";
 
-    visitor_nickname = window.prompt("Please enter your nickname")
-    //window.alert(y)
+            // var body = document.getElementsByTagName("body")[0];
+            // body.appendChild(button);
 
-    //save visitor properties on first page load
-    setVisitorProperties();
+            // button.addEventListener ("click", function() {
+            // deleteAllVisitorIdentifier()
+            // });
 
-    // create logger and begin logging
-    var logger = new X();
+            //when user came to site check cookie
+            checkCookie()
 
+            //user-agent parser by https://github.com/faisalman/ua-parser-js
+            var parser = new UAParser();
+            var result = parser.getResult();
+
+            browserName = result.browser.name
+            fullVersion = result.browser.version
+            majorVersion = result.browser.major
+            platform = result.os.name
+
+            //visitor_nickname = window.prompt("Please enter your nickname")
+
+            //save visitor properties on first page load
+            setVisitorProperties();
+
+            // jQuery(document).ready(function(){
+            // jQuery(this).scrollTop(0);
+            // });
+
+            // create logger and begin logging
+            var logger = new X();
+
+            });
+       }
     });
 });
+
+
+// function by Robert J. Walker from http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+function deleteAllVisitorIdentifier() {
+
+    document.cookie = "visitor_uid" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "_ga" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    localStorage.removeItem('mid');
+    sessionStorage.removeItem('sid');
+
+    var cookies = document.cookie.split(";");
+    for(var i=0; i < cookies.length; i++) {
+        var equals = cookies[i].indexOf("=");
+        var name = equals > -1 ? cookies[i].substr(0, equals) : cookies[i];
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+
+    clearCookie('__utma','.penazenkaren.sk','/');
+    clearCookie('__utmz','.penazenkaren.sk','/');
+
+    reloadPage()
+}
+
+function reloadPage() {
+    location.reload(true);
+}
+
+// cookie delete function by http://blog.tcs.de/delete-clear-google-analytics-cookies-with-javascript/
+function clearCookie(name, domain, path){
+    try {
+        function Get_Cookie( check_name ) {
+                // first we'll split this cookie up into name/value pairs
+                // note: document.cookie only returns name=value, not the other components
+                var a_all_cookies = document.cookie.split(';'),
+                    a_temp_cookie = '',
+                    cookie_name = '',
+                    cookie_value = '',
+                    b_cookie_found = false;
+
+                for ( i = 0; i < a_all_cookies.length; i++ ) {
+                    // now we'll split apart each name=value pair
+                    a_temp_cookie = a_all_cookies[i].split( '=' );
+
+                    // and trim left/right whitespace while we're at it
+                    cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
+
+                    // if the extracted name matches passed check_name
+                    if ( cookie_name == check_name ) {
+                        b_cookie_found = true;
+                        // we need to handle case where cookie has no value but exists (no = sign, that is):
+                        if ( a_temp_cookie.length > 1 ) {
+                            cookie_value = unescape( a_temp_cookie[1].replace(/^\s+|\s+$/g, '') );
+                        }
+                        // note that in cases where cookie is initialized but no value, null is returned
+                        return cookie_value;
+                        break;
+                    }
+                    a_temp_cookie = null;
+                    cookie_name = '';
+                }
+                if ( !b_cookie_found ) {
+                  return null;
+                }
+            }
+            if (Get_Cookie(name)) {
+                var domain = domain || document.domain;
+                var path = path || "/";
+                document.cookie = name + "=; expires=" + new Date + "; domain=" + domain + "; path=" + path;
+            }
+    }
+    catch(err) {}
+};
 
 // sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
 function alphabetical(a, b) {
@@ -224,14 +326,14 @@ function X()
     this.waitack = 0;
 
     // registrovanie udalosti
-    $(document).on('mousemove mouseover mouseout mousedown mouseup click dblclick blur focus', function (ev) { x.eventReceived(ev); });
-    $(window).on('load resize blur focus', function (ev) { x.eventReceived(ev); });
+    jQuery(document).bind('mousemove mouseover mouseout mousedown mouseup click dblclick blur focus', function (ev) { x.eventReceived(ev); });
+    jQuery(window).bind('load resize blur focus', function (ev) { x.eventReceived(ev); });
 
     //  $(document).on('touchstart touchend touchmove touchleave touchcancel', function (event) { x.eventTouchReceived(event); });
 
-    $(window).bind('scroll', function (ev) { x.eventScrollReceived(ev); });
+    jQuery(window).bind('scroll', function (ev) { x.eventScrollReceived(ev); });
 
-    $(window).bind('beforeunload', function() { return x.close(); });
+    jQuery(window).bind('beforeunload', function() { return x.close(); });
 
 }
 
@@ -262,7 +364,7 @@ function transferCoordinatesForHeatMap(ev){
     var array = [];
     //1024px je maxim=alna sirka heatmap screenu, ktoru sme vopred dohodli
 
-    this.heatMapMouseX = Math.round((1024 / $(window).width()) * realMouseX);
+    this.heatMapMouseX = Math.round((1024 / jQuery(window).width()) * realMouseX);
 
 
     this.heatMapMouseY = realMouseY;
@@ -310,7 +412,7 @@ var bot = 0;
 
 /*
 
-// In Opera 15+, the true version is after "OPR/" 
+// In Opera 15+, the true version is after "OPR/"
 if ((verOffset=nAgt.indexOf("OPR/"))!=-1) {
  browserName = "Opera";
  fullVersion = nAgt.substring(verOffset+4);
@@ -319,7 +421,7 @@ if ((verOffset=nAgt.indexOf("OPR/"))!=-1) {
 else if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
  browserName = "Opera";
  fullVersion = nAgt.substring(verOffset+6);
- if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+ if ((verOffset=nAgt.indexOf("Version"))!=-1)
    fullVersion = nAgt.substring(verOffset+8);
 }
 // In MSIE, the true version is after "MSIE" in userAgent
@@ -327,26 +429,26 @@ else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
  browserName = "Microsoft Internet Explorer";
  fullVersion = nAgt.substring(verOffset+5);
 }
-// In Chrome, the true version is after "Chrome" 
+// In Chrome, the true version is after "Chrome"
 else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
  browserName = "Chrome";
  fullVersion = nAgt.substring(verOffset+7);
 }
-// In Safari, the true version is after "Safari" or after "Version" 
+// In Safari, the true version is after "Safari" or after "Version"
 else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
  browserName = "Safari";
  fullVersion = nAgt.substring(verOffset+7);
- if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+ if ((verOffset=nAgt.indexOf("Version"))!=-1)
    fullVersion = nAgt.substring(verOffset+8);
 }
-// In Firefox, the true version is after "Firefox" 
+// In Firefox, the true version is after "Firefox"
 else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
  browserName = "Firefox";
  fullVersion = nAgt.substring(verOffset+8);
 }
-// In most other browsers, "name/version" is at the end of userAgent 
-else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
-          (verOffset=nAgt.lastIndexOf('/')) ) 
+// In most other browsers, "name/version" is at the end of userAgent
+else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) <
+          (verOffset=nAgt.lastIndexOf('/')) )
 {
  browserName = nAgt.substring(nameOffset,verOffset);
  fullVersion = nAgt.substring(verOffset+1);
@@ -362,7 +464,7 @@ if ((ix=fullVersion.indexOf(" "))!=-1)
 
 majorVersion = parseInt(''+fullVersion,10);
 if (isNaN(majorVersion)) {
- fullVersion  = ''+parseFloat(navigator.appVersion); 
+ fullVersion  = ''+parseFloat(navigator.appVersion);
  majorVersion = parseInt(navigator.appVersion,10);
 }
 
@@ -400,7 +502,7 @@ xmlhttp.send();
 
 document.write(''
  +'browser  = '+txt+'<br>'
- 
+
 )
 
 function reqListener () {
@@ -413,7 +515,7 @@ oReq.open("get", "text.txt", true);
 oReq.send();
 document.write(''
  +'browser <br>'
- 
+
 )
 */
 /*
@@ -435,23 +537,23 @@ function setVisitorProperties() {
             new Date().getTime(),
             'size',
             screen.width,
-            screen.height, 
-            $(window).width(), 
-            $(window).height(), 
-            $(document).width(), 
-            $(document).height(), 
-            screen.colorDepth, 
-            time.getTimezoneOffset(), 
-            browserName, 
-            fullVersion, 
-            majorVersion, 
-            navigator.appName, 
-            cookie, 
-            language, 
-            platform, 
-            comesFrom, 
-            bot, 
-            device, 
+            screen.height,
+            jQuery(window).width(),
+            jQuery(window).height(),
+            jQuery(document).width(),
+            jQuery(document).height(),
+            screen.colorDepth,
+            time.getTimezoneOffset(),
+            browserName,
+            fullVersion,
+            majorVersion,
+            navigator.appName,
+            cookie,
+            language,
+            platform,
+            comesFrom,
+            bot,
+            device,
             browser_fingerprint,
             pixel_ratio,
             timezone_offset,
@@ -530,7 +632,7 @@ X.prototype.eventReceived = function (ev) {
 
     if (ev.type == 'resize') {
         // nacitana stranka
-        this.sendLog(new Date().getTime(), ev.type, screen.width, screen.height, $(window).width(), $(window).height(), $(document).width(), $(document).height());
+        this.sendLog(new Date().getTime(), ev.type, screen.width, screen.height, jQuery(window).width(), jQuery(window).height(), jQuery(document).width(), jQuery(document).height());
         return;
     }
 }
@@ -705,7 +807,7 @@ X.prototype.send = function (url, data) {
     // if (this.sendBeaconSupported() && useSendBeacon)
     //     navigator.sendBeacon(url, data);
     // else {
-        $.ajax({
+        jQuery.ajax({
             type: 'POST',
             contentType: "text/plain",
             url: url,
