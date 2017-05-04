@@ -55,6 +55,8 @@ function loadScripts(array,callback){
     })();
 }
 
+//get attributes and fingerprints by https://github.com/Valve/fingerprintjs2
+//user-agent parser by https://github.com/faisalman/ua-parser-js
 loadScripts([
    "https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.0/fingerprint2.min.js",
    "https://rawgit.com/faisalman/ua-parser-js/master/src/ua-parser.js"
@@ -62,12 +64,14 @@ loadScripts([
 
     // get visitor name from element
     jQuery(window).bind('load', function() {
+
+       // pri testovani ziskavame meno ucastnika experimentu a cislo experimentu
+       // nm - name
        var nm = jQuery( "#experiment-name" ).text(); //"testUser"
-       var st = jQuery( "#experiment-set" ).text();
 
        //if name is not empty get attributes and start logging
        if (nm) {
-            visitor_nickname = nm; //+ "-" + st;
+            visitor_nickname = nm;
 
             //console.log("All things are loaded");
 
@@ -111,26 +115,11 @@ loadScripts([
                     //});
                     //console.log("end");
                 }
-
-                if(typeof window.console !== "undefined") {
-                    //var line = obj.key + " = " + value.toString().substr(0, 100);
-                    //console.log(line);
-                }
             }
 
-            // create button by David Cochran https://codepen.io/davidcochran/pen/WbWXoa
-            // var button = document.createElement("button");
-            // button.innerHTML = "Clear cookies";
-
-            // var body = document.getElementsByTagName("body")[0];
-            // body.appendChild(button);
-
-            // button.addEventListener ("click", function() {
-            // deleteAllVisitorIdentifier()
-            // });
-
             //when user came to site check cookie
-            checkCookie()
+            // funkcia pouzivana pri testovani, v produkcii vypnut
+            //checkCookie()
 
             //user-agent parser by https://github.com/faisalman/ua-parser-js
             var parser = new UAParser();
@@ -141,14 +130,8 @@ loadScripts([
             majorVersion = result.browser.major
             platform = result.os.name
 
-            //visitor_nickname = window.prompt("Please enter your nickname")
-
             //save visitor properties on first page load
             setVisitorProperties();
-
-            // jQuery(document).ready(function(){
-            // jQuery(this).scrollTop(0);
-            // });
 
             // create logger and begin logging
             var logger = new X();
@@ -158,77 +141,9 @@ loadScripts([
     });
 });
 
-
-// function by Robert J. Walker from http://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
-function deleteAllVisitorIdentifier() {
-
-    document.cookie = "visitor_uid" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = "_ga" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    localStorage.removeItem('mid');
-    sessionStorage.removeItem('sid');
-
-    var cookies = document.cookie.split(";");
-    for(var i=0; i < cookies.length; i++) {
-        var equals = cookies[i].indexOf("=");
-        var name = equals > -1 ? cookies[i].substr(0, equals) : cookies[i];
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
-
-    clearCookie('__utma','.penazenkaren.sk','/');
-    clearCookie('__utmz','.penazenkaren.sk','/');
-
-    reloadPage()
-}
-
 function reloadPage() {
     location.reload(true);
 }
-
-// cookie delete function by http://blog.tcs.de/delete-clear-google-analytics-cookies-with-javascript/
-function clearCookie(name, domain, path){
-    try {
-        function Get_Cookie( check_name ) {
-                // first we'll split this cookie up into name/value pairs
-                // note: document.cookie only returns name=value, not the other components
-                var a_all_cookies = document.cookie.split(';'),
-                    a_temp_cookie = '',
-                    cookie_name = '',
-                    cookie_value = '',
-                    b_cookie_found = false;
-
-                for ( i = 0; i < a_all_cookies.length; i++ ) {
-                    // now we'll split apart each name=value pair
-                    a_temp_cookie = a_all_cookies[i].split( '=' );
-
-                    // and trim left/right whitespace while we're at it
-                    cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
-
-                    // if the extracted name matches passed check_name
-                    if ( cookie_name == check_name ) {
-                        b_cookie_found = true;
-                        // we need to handle case where cookie has no value but exists (no = sign, that is):
-                        if ( a_temp_cookie.length > 1 ) {
-                            cookie_value = unescape( a_temp_cookie[1].replace(/^\s+|\s+$/g, '') );
-                        }
-                        // note that in cases where cookie is initialized but no value, null is returned
-                        return cookie_value;
-                        break;
-                    }
-                    a_temp_cookie = null;
-                    cookie_name = '';
-                }
-                if ( !b_cookie_found ) {
-                  return null;
-                }
-            }
-            if (Get_Cookie(name)) {
-                var domain = domain || document.domain;
-                var path = path || "/";
-                document.cookie = name + "=; expires=" + new Date + "; domain=" + domain + "; path=" + path;
-            }
-    }
-    catch(err) {}
-};
 
 // sorting function by http://www.java2s.com/Tutorial/JavaScript/0220__Array/Usinganalphabeticalsortmethodonstrings.htm
 function alphabetical(a, b) {
